@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Demos | Mulwa Muendo</title>
+<meta name="color-scheme" content="light">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Figtree:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<!--
+  demos.html
+  ----------
+  Three working demos. Each one is a simplified, in-browser version of something
+  that would run on a server for a real client. The "Under the hood" panels
+  explain how each one works, which makes this page a learning tool too.
+-->
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header" id="top">
+  <div class="wrap header-inner">
+    <a class="brand" href="index.html" aria-label="Mulwa Muendo, home">
+      <span class="brand-mark" aria-hidden="true">MM</span>
+      <span class="brand-name">Mulwa Muendo</span>
+    </a>
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="nav" aria-label="Toggle menu"><span></span><span></span></button>
+    <nav class="nav" id="nav" aria-label="Main">
+      <a href="index.html">Home</a>
+      <a href="index.html#projects">Services</a>
+      <a href="#demo-reply" class="is-active">Demos</a>
+      <a href="index.html#interests">ROI estimate</a>
+      <a class="btn btn--accent btn--small" href="index.html#contact">Start a conversation</a>
+    </nav>
+  </div>
+  <div class="progress" aria-hidden="true"><span></span></div>
+</header>
+
+<main id="main">
+  <section class="page-hero" aria-labelledby="demos-title">
+    <div class="wrap">
+      <div class="section-head" style="margin-bottom:0">
+        <p class="eyebrow">Live demos</p>
+        <h1 id="demos-title" style="font-size:clamp(2rem,4.6vw,3.3rem)">See the automation working before you spend anything</h1>
+        <p>Each demo is a simplified version of a system I build for clients. Everything runs in your browser using made-up businesses and data, so click around freely.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="wrap">
+
+    <!-- ===== DEMO 1: enquiry replier ===== -->
+    <section class="demo" id="demo-reply" aria-labelledby="d1-title">
+      <div class="demo-info">
+        <span class="tag">Demo 1 &middot; Customer service</span>
+        <h2 id="d1-title">Answer common enquiries instantly, day or night</h2>
+        <p>Customers message at all hours and expect an answer within minutes. This system reads each message, finds the right answer from the business's own FAQ and drafts a friendly reply. Anything it can't answer goes to a person.</p>
+        <p class="muted"><strong>Replaces:</strong> typing the same answers on WhatsApp and email all day.</p>
+        <details class="under">
+          <summary>Under the hood</summary>
+          <div class="in">
+            <p>This demo uses simple keyword matching so you can see the logic. Steps:</p>
+            <ol>
+              <li>Lowercase the message and split it into words.</li>
+              <li>Score each FAQ topic by how many of its keywords appear.</li>
+              <li>Pick the highest score. If it's zero, hand over to a human.</li>
+              <li>Fill the matched answer into a reply template.</li>
+            </ol>
+            <p style="margin-top:10px">A client version would use an AI model through an API (called from <code>Python</code>) so it understands meaning, not just keywords, and connects to WhatsApp Business.</p>
+          </div>
+        </details>
+      </div>
+      <div class="stage">
+        <div class="stage-title"><strong>Mama Wanjiru's Bakery</strong><span>Fictional business</span></div>
+        <div class="field" style="margin-bottom:0">
+          <label for="reply-input">Customer message</label>
+          <textarea id="reply-input" placeholder="Type a message a customer might send..."></textarea>
+        </div>
+        <div class="samples" id="reply-samples" aria-label="Sample messages"></div>
+        <button class="btn btn--primary" id="reply-btn" type="button">Draft reply</button>
+        <div class="reply-out" id="reply-out" aria-live="polite">
+          <p class="muted" style="margin:0">The drafted reply will appear here.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== DEMO 2: booking and reminders ===== -->
+    <section class="demo" id="demo-booking" aria-labelledby="d2-title">
+      <div class="demo-info">
+        <span class="tag">Demo 2 &middot; Bookings</span>
+        <h2 id="d2-title">Let customers book themselves and never miss an appointment</h2>
+        <p>Customers pick a free slot, the calendar blocks it so no one can double-book, and reminders go out automatically before the visit. Fewer no-shows, fewer back-and-forth messages.</p>
+        <p class="muted"><strong>Replaces:</strong> phone calls to arrange times and manual reminder messages.</p>
+        <details class="under">
+          <summary>Under the hood</summary>
+          <div class="in">
+            <p>Behind the scenes there are three parts:</p>
+            <ol>
+              <li>A list of slots, each marked free or taken.</li>
+              <li>When a slot is chosen, it is saved and marked taken straight away (this prevents double-booking).</li>
+              <li>A scheduler calculates send times (24 hours and 2 hours before) and queues the messages.</li>
+            </ol>
+            <p style="margin-top:10px">A client version stores bookings in a database and sends real messages through WhatsApp or SMS, run on a schedule by a <code>Python</code> script.</p>
+          </div>
+        </details>
+      </div>
+      <div class="stage">
+        <div class="stage-title"><strong>Sunrise Physio Clinic</strong><span>Fictional business</span></div>
+        <p class="muted" style="margin:0 0 4px">1. Pick a time</p>
+        <div class="days" id="book-days"></div>
+        <form id="book-form" novalidate>
+          <p class="muted" style="margin:0 0 8px">2. Your details</p>
+          <div class="row-2">
+            <div class="field" id="bf-name"><label for="book-name">Name</label><input id="book-name" type="text" autocomplete="off" placeholder="Jane Achieng"><span class="err" role="alert"></span></div>
+            <div class="field"><label for="book-phone">Phone</label><input id="book-phone" type="text" inputmode="tel" autocomplete="off" placeholder="0712 345 678"></div>
+          </div>
+          <button class="btn btn--primary" id="book-btn" type="submit" disabled>Choose a time first</button>
+        </form>
+        <div id="book-result" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <!-- ===== DEMO 3: weekly report ===== -->
+    <section class="demo" id="demo-report" aria-labelledby="d3-title">
+      <div class="demo-info">
+        <span class="tag">Demo 3 &middot; Reporting</span>
+        <h2 id="d3-title">Turn a messy sales sheet into a clear weekly summary</h2>
+        <p>Paste your sales data and get totals, your best products, your best day and how this week compares with last week, plus a short message you can send to your team. The same report can be emailed automatically every Monday.</p>
+        <p class="muted"><strong>Replaces:</strong> copying numbers between sheets and writing the summary by hand.</p>
+        <details class="under">
+          <summary>Under the hood</summary>
+          <div class="in">
+            <p>The report is plain arithmetic on a table:</p>
+            <ol>
+              <li>Read each line and split it into date, product, units and price.</li>
+              <li>Group the rows by day and by product, adding up revenue.</li>
+              <li>Compare the last 7 days with the 7 before.</li>
+              <li>Draw the chart and write the summary sentence from the results.</li>
+            </ol>
+            <p style="margin-top:10px">A client version reads the real spreadsheet (Excel, Google Sheets or a database) with <code>Python</code> and emails the report on a schedule.</p>
+          </div>
+        </details>
+      </div>
+      <div class="stage">
+        <div class="stage-title"><strong>Weekly sales report</strong><span>Sample data, editable</span></div>
+        <div class="field" style="margin-bottom:10px">
+          <label for="csv-input">Sales data <span class="hint">(date, product, units, price in KES)</span></label>
+          <textarea id="csv-input" class="csv" spellcheck="false" wrap="off"></textarea>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:10px">
+          <button class="btn btn--primary" id="csv-btn" type="button">Generate report</button>
+          <button class="btn btn--ghost" id="csv-reset" type="button">Reset sample data</button>
+        </div>
+        <p class="err" id="csv-err" role="alert" style="color:var(--bad);margin:10px 0 0;font-size:.9rem"></p>
+        <div id="csv-out" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <!-- ===== Concept rebuilds placeholder ===== -->
+    <section class="demo" aria-labelledby="d4-title" style="display:block">
+      <div class="section-head">
+        <p class="eyebrow">Coming soon</p>
+        <h2 id="d4-title">Website before and afters</h2>
+        <p>Concept rebuilds of real local business websites will appear here, each with a side-by-side slider and the specific problems fixed.</p>
+      </div>
+      <div class="grid-2">
+        <div class="placeholder"><span class="tag">Concept rebuild 01</span><h3 style="margin:8px 0 6px">Local business website</h3><p class="muted" style="margin:0">Before and after slider, speed comparison and a list of what changed.</p></div>
+        <div class="placeholder"><span class="tag">Concept rebuild 02</span><h3 style="margin:8px 0 6px">Local business website</h3><p class="muted" style="margin:0">Before and after slider, mobile screenshots and the result for the owner.</p></div>
+      </div>
+    </section>
+
+    <section style="padding-bottom:clamp(48px,7vw,88px)" aria-label="Next step">
+      <div class="cta-band">
+        <div>
+          <h2>Want this for your business?</h2>
+          <p>Tell me what slows you down. I'll show you what could be automated first.</p>
+        </div>
+        <a class="btn btn--accent" href="index.html#contact">Start a conversation</a>
+      </div>
+    </section>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap footer-inner">
+    <div>
+      <a class="brand" href="index.html"><span class="brand-mark" aria-hidden="true">MM</span><span class="brand-name">Mulwa Muendo</span></a>
+      <p class="footer-copy" style="margin-top:10px">Software &amp; automation solutions. Nairobi, Kenya.</p>
+    </div>
+    <ul class="footer-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="index.html#projects">Services</a></li>
+      <li><a href="index.html#interests">ROI estimate</a></li>
+      <li><a href="index.html#contact">Contact</a></li>
+    </ul>
+    <p class="footer-copy">&copy; <span data-year>2026</span> Mulwa Muendo</p>
+  </div>
+</footer>
+
+<button class="to-top" type="button" aria-label="Back to top"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 15 6-6 6 6"/></svg></button>
+
+<script src="js/config.js"></script>
+<script src="js/main.js"></script>
+<script src="js/demos.js"></script>
+</body>
+</html>
